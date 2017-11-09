@@ -20,4 +20,3 @@ def main():
 
 if __name__ == "__main__":
     main() # Calling a configured main function that will run everything that we need
-
