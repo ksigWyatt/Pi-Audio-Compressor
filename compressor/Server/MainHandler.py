@@ -1,7 +1,5 @@
-from tornado import ioloop, concurrent, gen
+from tornado import ioloop
 import tornado.web
-import pyaudio
-
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -19,6 +17,7 @@ def main():
     app = make_app()
     app.listen(8888)  # Listen on this port of 127.0.0.1
     ioloop.IOLoop.current().start()
+
 
 if __name__ == "__main__":
     main() # Calling a configured main function that will run everything that we need

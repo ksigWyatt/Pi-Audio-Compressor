@@ -13,13 +13,11 @@ track = AudioSegment.from_wav("C:\Users\wyatt\Downloads\StillYoung-WhiteLabel(Is
 #                                    attack = 10.0, release = 100.0)
 #     export = AudioSegment.export(compressed, format="mp3")
 #     export.write("Compressed.mp3")
-# import from wav
-
-
 
 
 # returns AudioSegment object
 compressed = effects.compress_dynamic_range(seg=track, threshold=-20.0, ratio = 3.0,
                                     attack = 10.0, release = 100.0)
 
-
+export = AudioSegment.export(compressed, format="mp3")
+export.write("Compressed.mp3")
