@@ -1,11 +1,13 @@
 import tornado.ioloop
 import tornado.web
+import os
 # import pydub
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        homePage = file.open("Interface.html","r")
-        self.write(file.read(homePage))
+        homePage = open("Interface.html", "r")
+        htmlCode = homePage.read()
+        self.write(htmlCode)
 
 def make_app():
     return tornado.web.Application([
