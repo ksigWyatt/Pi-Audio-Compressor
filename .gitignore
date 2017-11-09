@@ -108,7 +108,3 @@ ENV/
 
 # Notes to myself
 *.rtf
-
-# ignoring audio files because these are gonna get messy
-*.wav
-*.mp3
