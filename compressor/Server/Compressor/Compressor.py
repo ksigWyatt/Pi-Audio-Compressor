@@ -7,12 +7,20 @@ from pydub import AudioSegment
 # Frame Count: HZ frequency of Audio - usually 44.1 unless 48k was used
 #
 # seg is the track - or each AudioSegment object that is streamed while compressed
+
 def compress(seg):
-    fileName = "StillYoung-WhiteLabel(IsThisLove).wav"
-    track = AudioSegment.from_wav(fileName)
+    print "Compressing"
+
+    chunk = AudioSegment.from_wav(seg)
     # returns AudioSegment object
-    compressed = effects.compress_dynamic_range(track, threshold=-20.0, ratio=3.0,
+    compressed = effects.compress_dynamic_range(chunk, threshold=-20.0, ratio=3.0,
                                                 attack=10.0, release=100.0)
 
-    compressed.export('(%s)_Pydub_compressed.pdf' % fileName, format="mp3")
-    print track.get_array_of_samples()
+    compressed.export('(%s)_Pydub_compressed.mp3' % fileName, format="mp3")
+    print chunk.get_array_of_samples()
+
+    return seg
+
+
+fileName = "StillYoung-WhiteLabel(IsThisLove).wav"
+compressed_file = compress(fileName)
