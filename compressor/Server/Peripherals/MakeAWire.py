@@ -3,7 +3,6 @@ import sys
 import os
 
 
-# Must keep for memory leaks - potential crashes
 
 def record_and_compress() :
     # chunks are recordings of 1024 bytes of data
@@ -13,7 +12,7 @@ def record_and_compress() :
     channels = 2
     sample_rate = 44100  # in Hz
     # Set the record time to be 3 minutes that's about the length of a song
-recording_length = 5 # 180
+    recording_length = 10
 
     p = pyaudio.PyAudio()
 
@@ -29,12 +28,15 @@ recording_length = 5 # 180
     # for all the chunks that are in the array - stream them for compression
     for i in range(0, int(sample_rate / chunk * recording_length)):
         data = stream.read(chunk)
-
         stream.write(data, chunk)
-
+        
+    print data
     print("* done")
 
     stream.stop_stream()
     stream.close()
 
     p.terminate()
+
+
+record_and_compress()
