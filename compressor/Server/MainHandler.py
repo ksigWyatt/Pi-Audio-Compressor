@@ -8,7 +8,6 @@ import numpy
 import struct
 import math
 import audioop
-import decimal
 
 def compress(seg):
     print "Compressing"
@@ -69,23 +68,23 @@ def record_and_compress():
             decibels = 20 * math.log10(audio_levels)
         print decibels
 
-        # if decibels + 30 >= 100:
-        # print "Over 100 detected"
-        print "Creating compressed file"
-        wave_file = wave.open(f="compress.wav", mode="wb")
-        wave_file.writeframes(data)
-        frame_rate = wave_file.getframerate()
-        print frame_rate
-        wave_file.setnchannels(2)
-
-        # Create the proper file
-        compressed = AudioSegment.from_raw(wave_file)
-        compressed.max_possible_amplitude = 32768  # this is very important
-        compressed.frame_rate = frame_rate
-        compressed.channels = 2
-        compressed.sample_width = 2
-
-        post_compression = compress(compressed)
+        if decibels >= 100:
+            print "Over 100 detected"
+        #     print "Creating compressed file"
+        #     wave_file = wave.open(f="compress.wav", mode="wb")
+        #     wave_file.writeframes(data)
+        #     frame_rate = wave_file.getframerate()
+        #     print frame_rate
+        #     wave_file.setnchannels(2)
+        #
+        #     # Create the proper file
+        #     compressed = AudioSegment.from_raw(wave_file)
+        #     compressed.max_possible_amplitude = 32768  # this is very important
+        #     compressed.frame_rate = frame_rate
+        #     compressed.channels = 2
+        #     compressed.sample_width = 2
+        #
+        #     post_compression = compress(compressed)
             #     Send to the compressor
 
         # wave_data = AudioSegment.from_raw(data, sample_width=sample_width, frame_rate=sample_rate, channels=channels)
@@ -127,6 +126,3 @@ if __name__ == "__main__":
     app.listen(8888) # Listen on this port of 127.0.0.1
     record_and_compress()
     tornado.ioloop.IOLoop.current().start()
-
-
-
