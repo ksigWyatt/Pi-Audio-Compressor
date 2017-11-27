@@ -4,7 +4,8 @@ import pyaudio
 import wave
 from pydub import effects
 from pydub import AudioSegment
-import numpy
+from pydub.playback import play
+import os
 import struct
 import math
 import audioop
@@ -26,7 +27,6 @@ def rms( data ):
     for sample in shorts:
         n = sample * (1.0/32768)
         sum_squares += n*n
-
     value = math.sqrt( sum_squares / count )
     return value
 
@@ -52,57 +52,47 @@ def record_and_compress():
                     frames_per_buffer=chunk)
 
     print("* recording")
-    frames = []
 
     # for all the chunks that are in the array - stream them for compression
     for i in range(0, int(sample_rate / chunk * recording_length)):
         # data = samples from the stream <type 'str'>
         data = stream.read(chunk)
-        audio_levels = audioop.rms(data, 2)
 
-        #print value -- crashes if the value is == 0 so we must catch this
+        audio_levels = audioop.rms(data, 2)
+        print "audio level", audio_levels
+        # crashes if the value is == 0 so we must catch this
         if (audio_levels == 0):
             audio_levels = 1
             decibels = 20 * math.log10(audio_levels)
+        # Not 0 < x < 100 -- Normal & Acceptable use
         else:
             decibels = 20 * math.log10(audio_levels)
-        print decibels
-
-        if decibels >= 100:
+            stream.write(data, chunk)
+            # print decibels
+        # x >= 100
+        if decibels + 80 >= 100:
             print "Over 100 detected"
-        #     print "Creating compressed file"
-        #     wave_file = wave.open(f="compress.wav", mode="wb")
-        #     wave_file.writeframes(data)
-        #     frame_rate = wave_file.getframerate()
-        #     print frame_rate
-        #     wave_file.setnchannels(2)
-        #
-        #     # Create the proper file
-        #     compressed = AudioSegment.from_raw(wave_file)
-        #     compressed.max_possible_amplitude = 32768  # this is very important
-        #     compressed.frame_rate = frame_rate
-        #     compressed.channels = 2
-        #     compressed.sample_width = 2
-        #
-        #     post_compression = compress(compressed)
-            #     Send to the compressor
+            chunk_temp = chunk
 
-        # wave_data = AudioSegment.from_raw(data, sample_width=sample_width, frame_rate=sample_rate, channels=channels)
-        # print type(wave_data)
+            # do your bidding sir
+            print "Creating compressed file"
+            wave_file = wave.open(f="compress.wav(%s)" %i, mode="wb")
+            wave_file.setnchannels(2)
+            wave_file.setsampwidth(sample_width)
+            wave_file.setframerate(sample_rate)
+            wave_file.writeframesraw(data)
+            wave_file.close()
 
-        # This might work?
-        # decoded = decimal.Decimal(numpy.fromstring(data, 'Float32'))
-        # print decoded[0]
+            # Create the proper file
+            compressed = AudioSegment.from_wav("compress.wav(%s)" %i)
+            os.remove("compress.wav(%s)" %i) # delete it quickly
 
+            # Send to the compressor
+            post_compression_data = compress(compressed) # Type <class 'pydub.audio_segment.AudioSegment'>
 
-        # sound = AudioSegment.from_wav(file = decoded)
+            # Stream to the speakers after the
+            play(post_compression_data)
 
-
-        # <NoneType>
-        # stream.write(data, chunk))
-        # compressed = compress(data)
-
-    # print compressed
     print("* done")
 
     stream.stop_stream()
