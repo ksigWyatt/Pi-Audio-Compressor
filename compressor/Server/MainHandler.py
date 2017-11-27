@@ -4,7 +4,6 @@ import pyaudio
 import wave
 from pydub import effects
 from pydub import AudioSegment
-from pydub.playback import play
 import os
 import struct
 import math
@@ -68,7 +67,6 @@ def record_and_compress():
             # dB 0 < x < 100 -- Normal & Acceptable use
             not_clipping = (decibels >= 0 and decibels + 30 < 100)
             if not_clipping:
-                decibels = 20 * math.log10(audio_levels)
                 stream.write(data, chunk)
 
             # x >= 100
@@ -77,7 +75,7 @@ def record_and_compress():
 
                 # do your bidding sir
                 wave_file = wave.open(f="compress.wav(%s)" %i, mode="wb")
-                wave_file.setnchannels(2)
+                wave_file.setnchannels(channels)
                 wave_file.setsampwidth(sample_width)
                 wave_file.setframerate(sample_rate)
                 wave_file.writeframesraw(data)
