@@ -61,16 +61,20 @@ def record_and_compress():
         if (audio_levels == 0):
             audio_levels = 1
             decibels = 20 * math.log10(audio_levels)
+
         else:
             decibels = 20 * math.log10(audio_levels)
-            # Not 0 < x < 100 -- Normal & Acceptable use
+
+            # dB 0 < x < 100 -- Normal & Acceptable use
             not_clipping = (decibels >= 0 and decibels + 30 < 100)
             if not_clipping:
                 decibels = 20 * math.log10(audio_levels)
                 stream.write(data, chunk)
+
             # x >= 100
             else:
                 chunk_temp = chunk
+
                 # do your bidding sir
                 wave_file = wave.open(f="compress.wav(%s)" %i, mode="wb")
                 wave_file.setnchannels(2)
