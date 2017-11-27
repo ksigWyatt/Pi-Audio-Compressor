@@ -59,7 +59,6 @@ def record_and_compress():
         data = stream.read(chunk)
 
         audio_levels = audioop.rms(data, 2)
-        print "audio level", audio_levels
         # crashes if the value is == 0 so we must catch this
         if (audio_levels == 0):
             audio_levels = 1
@@ -68,14 +67,12 @@ def record_and_compress():
         else:
             decibels = 20 * math.log10(audio_levels)
             stream.write(data, chunk)
-            # print decibels
+            print decibels
         # x >= 100
-        if decibels + 80 >= 100:
-            print "Over 100 detected"
+        if decibels >= 100:
             chunk_temp = chunk
 
             # do your bidding sir
-            print "Creating compressed file"
             wave_file = wave.open(f="compress.wav(%s)" %i, mode="wb")
             wave_file.setnchannels(2)
             wave_file.setsampwidth(sample_width)
@@ -91,7 +88,7 @@ def record_and_compress():
             post_compression_data = compress(compressed) # Type <class 'pydub.audio_segment.AudioSegment'>
 
             # Stream to the speakers after the
-            play(post_compression_data)
+            play(post_compression_data) # not working quite right TODO: Fix this so playback is fluid
 
     print("* done")
 
