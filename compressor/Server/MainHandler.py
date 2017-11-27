@@ -87,7 +87,7 @@ def record_and_compress():
                 post_compression_data = compress(compressed) # Type <class 'pydub.audio_segment.AudioSegment'>
 
                 # Stream to the speakers after the
-                stream.write(compressed.raw_data, chunk_temp) # not fluid but it works for me
+                stream.write(post_compression_data.raw_data, chunk_temp) # not fluid but it works for me
 
     print("* done")
 
