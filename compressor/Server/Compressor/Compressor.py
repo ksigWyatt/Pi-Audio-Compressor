@@ -10,7 +10,7 @@ from pydub import AudioSegment
 
 def compress(seg):
     print "Compressing"
-
+    fileName = ""
     chunk = AudioSegment.from_wav(seg)
     # returns AudioSegment object
     compressed = effects.compress_dynamic_range(chunk, threshold=-20.0, ratio=3.0,
@@ -18,9 +18,14 @@ def compress(seg):
 
     compressed.export('(%s)_Pydub_compressed.mp3' % fileName, format="mp3")
     print chunk.get_array_of_samples()
-
     return seg
 
 
-fileName = "StillYoung-WhiteLabel(IsThisLove).wav"
-compressed_file = compress(fileName)
+
+
+
+
+
+
+
+
