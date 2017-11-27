@@ -11,11 +11,9 @@ import math
 import audioop
 
 def compress(seg):
-    print "Compressing"
     chunk = seg
-    # returns AudioSegment object
     compressed = effects.compress_dynamic_range(chunk, threshold=-20.0, ratio=3.0,
-                                                attack=10.0, release=100.0)
+                                                attack=5.0, release=10.0)
     return compressed
 
 # get decibel levels
@@ -63,32 +61,33 @@ def record_and_compress():
         if (audio_levels == 0):
             audio_levels = 1
             decibels = 20 * math.log10(audio_levels)
-        # Not 0 < x < 100 -- Normal & Acceptable use
         else:
             decibels = 20 * math.log10(audio_levels)
-            stream.write(data, chunk)
-            print decibels
-        # x >= 100
-        if decibels >= 100:
-            chunk_temp = chunk
+            # Not 0 < x < 100 -- Normal & Acceptable use
+            not_clipping = (decibels >= 0 and decibels + 30 < 100)
+            if not_clipping:
+                decibels = 20 * math.log10(audio_levels)
+                stream.write(data, chunk)
+            # x >= 100
+            else:
+                chunk_temp = chunk
+                # do your bidding sir
+                wave_file = wave.open(f="compress.wav(%s)" %i, mode="wb")
+                wave_file.setnchannels(2)
+                wave_file.setsampwidth(sample_width)
+                wave_file.setframerate(sample_rate)
+                wave_file.writeframesraw(data)
+                wave_file.close()
 
-            # do your bidding sir
-            wave_file = wave.open(f="compress.wav(%s)" %i, mode="wb")
-            wave_file.setnchannels(2)
-            wave_file.setsampwidth(sample_width)
-            wave_file.setframerate(sample_rate)
-            wave_file.writeframesraw(data)
-            wave_file.close()
+                # Create the proper file
+                compressed = AudioSegment.from_wav("compress.wav(%s)" %i)
+                os.remove("compress.wav(%s)" %i) # delete it quickly
 
-            # Create the proper file
-            compressed = AudioSegment.from_wav("compress.wav(%s)" %i)
-            os.remove("compress.wav(%s)" %i) # delete it quickly
+                # Send to the compressor
+                post_compression_data = compress(compressed) # Type <class 'pydub.audio_segment.AudioSegment'>
 
-            # Send to the compressor
-            post_compression_data = compress(compressed) # Type <class 'pydub.audio_segment.AudioSegment'>
-
-            # Stream to the speakers after the
-            play(post_compression_data) # not working quite right TODO: Fix this so playback is fluid
+                # Stream to the speakers after the
+                stream.write(compressed.raw_data, chunk_temp) # not fluid but it works for me
 
     print("* done")
 
