@@ -100,6 +100,18 @@ ENV/
 # mypy
 .mypy_cache/
 
-
 # Jet Brains Platform
 /.idea/
+
+## DB Files
+*/db.sqlite3
+
+# Notes to myself
+*.rtf
+
+# ignoring audio files because these are gonna get messy
+*.wav
+*.mp3
+
+# ignore files on the Pi
+*/end/
