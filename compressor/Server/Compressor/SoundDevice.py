@@ -1,6 +1,7 @@
 import pyaudio
 import wave
 
+# We may not need this but I'll keep it just in case - we can always delete this file later
 class Recorder(object):
     '''A recorder class for recording audio to a WAV file.
     Records in mono by default.
