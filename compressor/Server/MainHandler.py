@@ -55,14 +55,14 @@ def record_and_compress():
 
     # for all the chunks that are in the array - stream them for compression
     for i in range(0, int(sample_rate / chunk * recording_length)):
+
         # data = samples from the stream <type 'str'>
         data = stream.read(chunk)
-
         audio_levels = audioop.rms(data, 2)
+
         # crashes if the value is == 0 so we must catch this
         if (audio_levels == 0):
             audio_levels = 1
-            decibels = 20 * math.log10(audio_levels)
 
         else:
             decibels = 20 * math.log10(audio_levels)
@@ -95,7 +95,7 @@ def record_and_compress():
                 stream.write(post_compression_data.raw_data, chunk_temp) # not fluid but it works for me
 
     print("* done")
-    
+
     stream.stop_stream()
     stream.close()
 
