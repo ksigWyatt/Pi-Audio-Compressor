@@ -11,8 +11,7 @@ import audioop
 
 def compress(seg):
     chunk = seg
-    compressed = effects.compress_dynamic_range(chunk, threshold=-20.0, ratio=3.0,
-                                                attack=5.0, release=10.0)
+    compressed = effects.compress_dynamic_range(chunk, threshold=-20.0, ratio=3.0, attack=5.0, release=10.0)
     return compressed
 
 # get decibel levels
@@ -29,11 +28,15 @@ def rms( data ):
 
 
 def record_and_compress():
-    # chunks are recordings of 1024 bytes of data
-    chunk = 1024
+
+    # chunks are recordings of 2048 bytes of data
+    # This should be a few MB so that the system can capture the samples in a large enough structure.
+    # If the chunks are too small then the computer will throw an Overflowed IOError because it cannot store that many
+
+    chunk = 2048
     sample_width = 2
     audio_format = pyaudio.paInt16
-    channels = 2
+    channels = 1  # Mono - workaround for IOError: [Errno -9981] Input overflowed
     sample_rate = 44100  # in Hz
 
     # Set the record time to be 3 minutes that's about the length of a song
@@ -65,7 +68,7 @@ def record_and_compress():
             decibels = 20 * math.log10(audio_levels)
 
             # dB 0 < x < 100 -- Normal & Acceptable use
-            not_clipping = (decibels >= 0 and decibels + 30 < 100)
+            not_clipping = (decibels >= 0 and decibels + 50 < 100)
             if not_clipping:
                 stream.write(data, chunk)
 
@@ -92,7 +95,7 @@ def record_and_compress():
                 stream.write(post_compression_data.raw_data, chunk_temp) # not fluid but it works for me
 
     print("* done")
-
+    
     stream.stop_stream()
     stream.close()
 
