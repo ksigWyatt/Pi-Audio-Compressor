@@ -38,7 +38,7 @@ def record_and_compress():
     sample_rate = 16000  # in Hz
 
     # Set the record time to be 10 seconds -- We are limited to that length because of the Pi
-    recording_length = 10
+    recording_length = 60
     p = pyaudio.PyAudio()
 
     # Stream object <type 'instance'>
@@ -66,13 +66,12 @@ def record_and_compress():
             decibels = 20 * math.log10(audio_levels)
 
             # dB 0 < x < 100 -- Normal & Acceptable use
-            not_clipping = (decibels >= 0 and decibels + 50 < 100)
+            not_clipping = (decibels >= 0 and decibels  < 90)
             if not_clipping:
                 stream.write(data, chunk)
 
             # x >= 100
             else:
-                chunk_temp = chunk
 
                 # do your bidding sir
                 sound = AudioSegment(data, sample_width=sample_width, channels=channels, frame_rate=sample_rate)
@@ -81,7 +80,7 @@ def record_and_compress():
                 post_compression_data = compress(sound) # Type <class 'pydub.audio_segment.AudioSegment'>
 
                 # Stream to the speakers after the
-                stream.write(post_compression_data.raw_data, chunk_temp) # not fluid but it works for me
+                stream.write(post_compression_data.raw_data, chunk) # not fluid but it works for me
 
     print("* done")
 
