@@ -75,19 +75,10 @@ def record_and_compress():
                 chunk_temp = chunk
 
                 # do your bidding sir
-                wave_file = wave.open(f="compress.wav(%s)" %i, mode="wb")
-                wave_file.setnchannels(channels)
-                wave_file.setsampwidth(sample_width)
-                wave_file.setframerate(sample_rate)
-                wave_file.writeframesraw(data)
-                wave_file.close()
-
-                # Create the proper file
-                compressed = AudioSegment.from_wav("compress.wav(%s)" %i)
-                os.remove("compress.wav(%s)" %i) # delete it quickly
+                sound = AudioSegment(data, sample_width=sample_width, channels=channels, frame_rate=sample_rate)
 
                 # Send to the compressor
-                post_compression_data = compress(compressed) # Type <class 'pydub.audio_segment.AudioSegment'>
+                post_compression_data = compress(sound) # Type <class 'pydub.audio_segment.AudioSegment'>
 
                 # Stream to the speakers after the
                 stream.write(post_compression_data.raw_data, chunk_temp) # not fluid but it works for me
