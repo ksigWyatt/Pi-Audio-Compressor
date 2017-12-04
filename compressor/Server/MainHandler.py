@@ -29,18 +29,16 @@ def rms( data ):
 
 def record_and_compress():
 
-    # chunks are recordings of 2048 bytes of data
     # This should be a few MB so that the system can capture the samples in a large enough structure.
     # If the chunks are too small then the computer will throw an Overflowed IOError because it cannot store that many
-
-    chunk = 2048
+    chunk = 8192
     sample_width = 2
     audio_format = pyaudio.paInt16
     channels = 1  # Mono - workaround for IOError: [Errno -9981] Input overflowed
-    sample_rate = 44100  # in Hz
+    sample_rate = 16000  # in Hz
 
-    # Set the record time to be 3 minutes that's about the length of a song
-    recording_length = 60
+    # Set the record time to be 10 seconds -- We are limited to that length because of the Pi
+    recording_length = 10
     p = pyaudio.PyAudio()
 
     # Stream object <type 'instance'>
