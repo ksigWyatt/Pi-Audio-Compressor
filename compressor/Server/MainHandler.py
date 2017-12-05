@@ -30,17 +30,17 @@ def rms(data):
 
 
 def record_and_compress(w, x, y, z):
-    # chunks are recordings of 2048 bytes of data
+
     # This should be a few MB so that the system can capture the samples in a large enough structure.
     # If the chunks are too small then the computer will throw an Overflowed IOError because it cannot store that many
 
-    chunk = 2048
+    chunk = 8192
     sample_width = 2
     audio_format = pyaudio.paInt16
     channels = 1  # Mono - workaround for IOError: [Errno -9981] Input overflowed
-    sample_rate = 44100  # in Hz
+    sample_rate = 16000  # in Hz
 
-    # Set the record time to be 3 minutes that's about the length of a song
+    # Set the record time to be 1 minute -- We are limited to that length because of the Pi
     recording_length = 60
     p = pyaudio.PyAudio()
 
@@ -69,32 +69,21 @@ def record_and_compress(w, x, y, z):
             decibels = 20 * math.log10(audio_levels)
 
             # dB 0 < x < 100 -- Normal & Acceptable use
-            not_clipping = (decibels >= 0 and decibels + 50 < 100)
+            not_clipping = (decibels >= 0 and decibels  < 90)
             if not_clipping:
                 stream.write(data, chunk)
 
             # x >= 100
             else:
-                chunk_temp = chunk
 
                 # do your bidding sir
-                wave_file = wave.open(f="compress.wav(%s)" % i, mode="wb")
-                wave_file.setnchannels(channels)
-                wave_file.setsampwidth(sample_width)
-                wave_file.setframerate(sample_rate)
-                wave_file.writeframesraw(data)
-                wave_file.close()
-
-                # Create the proper file
-                compressed = AudioSegment.from_wav("compress.wav(%s)" % i)
-                os.remove("compress.wav(%s)" % i)  # delete it quickly
+                sound = AudioSegment(data, sample_width=sample_width, channels=channels, frame_rate=sample_rate)
 
                 # Send to the compressor
-                post_compression_data = compress(compressed, w, x, y,
-                                                 z)  # Type <class 'pydub.audio_segment.AudioSegment'>
+                post_compression_data = compress(sound, w, x, y, z)  # Type <class 'pydub.audio_segment.AudioSegment'>
 
                 # Stream to the speakers after the
-                stream.write(post_compression_data.raw_data, chunk_temp)  # not fluid but it works for me
+                stream.write(post_compression_data.raw_data, chunk)  # not fluid but it works for me
 
     print("* done")
 
