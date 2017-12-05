@@ -4,8 +4,27 @@
 	<title>Welcome to the Embedded Compressor Demo</title>
 </head>
 <body>
-<h2>Embedded Compressor</h2>
-&nbsp;
-<h4>Here you will be able to see the preview of the audio files as they are compressed</h4>
+	<h1>Embedded Compressor</h1>
+	<form>	  
+		<div class="container">
+		  <label><b>Threshold</b></label>
+			<input type="text" placeholder="Enter Threshold" 
+				name="thrs" required style="display:block">
+	  	&nbsp;
+		  <label><b>Ratio</b></label>
+			<input type="text" placeholder="Enter Ratio" 
+				name="rtio" required style="display:block">
+			&nbsp;
+		  <label><b>Attack</b></label>
+			<input type="text" placeholder="Enter Attack Time" 
+				name="attk" required style="display:block">
+			&nbsp;
+		  <label><b>Release</b></label>
+			<input type="text" placeholder="Enter Release Time" 
+				name="rele" required style="display:block">
+			&nbsp;
+		  <button type="submit">Submit</button>
+		</div>
+	  </form>
 </body>
 </html>
