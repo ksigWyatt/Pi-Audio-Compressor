@@ -15,7 +15,7 @@ We aimed to make something that could work in real time, as professional hardwar
 - [FFmpeg](https://wiki.debian.org/ffmpeg#Installation) 
 - [PortAudio](https://stackoverflow.com/a/21014700/6448167)
 - From pip:
-    - PyAudio - Audio I/O in realtime
+    - PyAudio - Audio I/O in real time
     - PyDub - Audio Compression & Dynamics
     - Tornado - Realtime non-blocking server for interaction from the user
 
