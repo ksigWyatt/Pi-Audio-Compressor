@@ -2,7 +2,7 @@
 Senior Embedded Systems using Python running on Raspberry Pi 
 
 ## Objective
-The objective of the project is to create an audio compression syste, similar to those found in professional audio equiptment. Our program will not feature as many intricate settings as are on similar hardware. This is used as a tool to help educate new audio professionals; how audio compression works, the difference in dynamics following a change in threshold or attack, and much more. 
+The objective of the project is to create an audio compression system, similar to those found in professional audio equiptment. Our program will not feature as many intricate settings as are on similar hardware. This is used as a tool to help educate new audio professionals; how audio compression works, the difference in dynamics following a change in threshold or attack, and much more. 
 
 We aimed to make something that could work in real time, as professional hardware does. 
 
