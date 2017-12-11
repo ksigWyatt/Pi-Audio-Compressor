@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Welcome to the Embedded Compressor Demo</title>
+	<title>Embedded Compressor Demo</title>
 </head>
 <body>
 	<h1>Embedded Compressor</h1>
+	<!--This is a form because otherwise you'd have to make an AJAX call to the Python file on the server in JS-->
 	<form>	  
 		<div class="container">
-		  <label><b>Threshold</b></label>
+		  <label><strong>Threshold</strong></label>
 			<input type="text" placeholder="Enter Threshold" 
 				name="thrs" required style="display:block">
-	  	&nbsp;
-		  <label><b>Ratio</b></label>
+			<br>
+		  <label><strong>Ratio</strong></label>
 			<input type="text" placeholder="Enter Ratio" 
 				name="rtio" required style="display:block">
-			&nbsp;
-		  <label><b>Attack</b></label>
+			<br>
+		  <label><strong>Attack</strong></label>
 			<input type="text" placeholder="Enter Attack Time" 
 				name="attk" required style="display:block">
-			&nbsp;
-		  <label><b>Release</b></label>
+			<br>
+		  <label><strong>Release</strong></label>
 			<input type="text" placeholder="Enter Release Time" 
 				name="rele" required style="display:block">
-			&nbsp;
+			<br>
 		  <button type="submit">Submit</button>
 		</div>
 	  </form>
