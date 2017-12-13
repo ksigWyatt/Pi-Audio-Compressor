@@ -106,7 +106,7 @@ class MainHandler(tornado.web.RequestHandler):
         x = self.get_argument("rtio", 1.0)
         y = self.get_argument("attk", 10)
         z = self.get_argument("rele", 5)
-        print("Using Threshold: %s, Ratio: %s, Attack: %s, Release: %s" % (w, x, y, z))
+        print("\nUsing Threshold: %s, Ratio: %s, Attack: %s, Release: %s" % (w, x, y, z))
         record_and_compress(float(w), float(x), float(y), float(z))
 
 
