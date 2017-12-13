@@ -84,7 +84,7 @@ def record_and_compress(w, x, y, z):
 
                 # Send to the compressor
                 post_compression_data = compress(sound, w, x, y, z)
-                post_compression_data.export("compressed.wav", format="wav")
+                post_compression_data.export("compressed%s.wav" % i, format="wav")
 
                 # Stream to the speakers after the
                 stream.write(post_compression_data.raw_data, chunk)  # not fluid but it works for me
