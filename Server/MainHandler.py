@@ -57,8 +57,6 @@ def record_and_compress(w, x, y, z):
         # on the Pi this causes an IOError because it can't keep up with reading the chunks while it compresses
         data = stream.read(chunk)
         audio_levels = audioop.rms(data, 2)
-        preCompress = AudioSegment(data, sample_width=sample_width, channels=channels, frame_rate=sample_rate)
-        preCompress.export("pre-compress.wav", format="wav")
 
 
         # crashes if the value is == 0 so we must catch this
@@ -81,6 +79,8 @@ def record_and_compress(w, x, y, z):
 
                 # do your bidding sir
                 sound = AudioSegment(data, sample_width=sample_width, channels=channels, frame_rate=sample_rate)
+                preCompress = AudioSegment(data, sample_width=sample_width, channels=channels, frame_rate=sample_rate)
+                preCompress.export("pre-compress%s.wav" % i, format="wav")
 
                 # Send to the compressor
                 post_compression_data = compress(sound, w, x, y, z)
