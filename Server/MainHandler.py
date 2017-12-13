@@ -65,12 +65,12 @@ def record_and_compress(w, x, y, z):
         else:
             decibels = 20 * math.log10(audio_levels)
 
-            # dB 0 < x < 83 dB -- Normal & Acceptable use
-            not_clipping = (decibels >= 0 and decibels  < 83)
+            # dB 0 < x < 85 dB -- Normal & Acceptable use
+            not_clipping = (decibels >= 0 and decibels  < 85)
             if not_clipping:
                 stream.write(data, chunk)
 
-            # x >= 83 dB
+            # x >= 85 dB
             else:
                 # uncomment the following line to see when the compression happens. On the Pi this should be avoided
                 # because it uses up to much RSS
