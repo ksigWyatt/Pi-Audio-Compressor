@@ -42,7 +42,6 @@ def record_and_compress(w, x, y, z):
     recording_length = 60
     p = pyaudio.PyAudio()
 
-    # Stream object <type 'instance'>
     stream = p.open(format=audio_format,
                     channels=channels,
                     rate=sample_rate,
@@ -66,12 +65,12 @@ def record_and_compress(w, x, y, z):
         else:
             decibels = 20 * math.log10(audio_levels)
 
-            # dB 0 < x < 100 -- Normal & Acceptable use
-            not_clipping = (decibels >= 0 and decibels  < 90)
+            # dB 0 < x < 80 dB -- Normal & Acceptable use
+            not_clipping = (decibels >= 0 and decibels  < 80)
             if not_clipping:
                 stream.write(data, chunk)
 
-            # x >= 100
+            # x >= 80 dB
             else:
 
                 # do your bidding sir
