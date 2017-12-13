@@ -54,7 +54,7 @@ def record_and_compress(w, x, y, z):
     # for all the chunks that are in the array - stream them for compression
     for i in range(0, int(sample_rate / chunk * recording_length)):
 
-        # data = samples from the stream <type 'str'>
+        # on the Pi this causes an IOError because it can't keep up with reading the chunks while it compresses
         data = stream.read(chunk)
         audio_levels = audioop.rms(data, 2)
 
@@ -65,13 +65,14 @@ def record_and_compress(w, x, y, z):
         else:
             decibels = 20 * math.log10(audio_levels)
 
-            # dB 0 < x < 80 dB -- Normal & Acceptable use
-            not_clipping = (decibels >= 0 and decibels  < 80)
+            # dB 0 < x < 85 dB -- Normal & Acceptable use
+            not_clipping = (decibels >= 0 and decibels  < 85)
             if not_clipping:
                 stream.write(data, chunk)
 
-            # x >= 80 dB
+            # x >= 85 dB
             else:
+                print ("Compressing %s dB" % decibels)
 
                 # do your bidding sir
                 sound = AudioSegment(data, sample_width=sample_width, channels=channels, frame_rate=sample_rate)
@@ -99,10 +100,11 @@ class MainHandler(tornado.web.RequestHandler):
 
     # runs compression after the page loads fully
     def on_finish(self):  # checks the url for form arguments
-        w = self.get_argument("thrs", 0)
-        x = self.get_argument("rtio", 1)
-        y = self.get_argument("attk", 0.1)
-        z = self.get_argument("rele", 0.1)
+        w = self.get_argument("thrs", -5)
+        x = self.get_argument("rtio", 1.0)
+        y = self.get_argument("attk", 10)
+        z = self.get_argument("rele", 5)
+        print("Using Threshold: %s, Ratio: %s, Attack: %s, Release: %s" % (w, x, y, z))
         record_and_compress(float(w), float(x), float(y), float(z))
 
 
