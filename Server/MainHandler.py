@@ -72,7 +72,9 @@ def record_and_compress(w, x, y, z):
 
             # x >= 85 dB
             else:
-                print ("Compressing %s dB" % decibels)
+                # uncomment the following line to see when the compression happens. On the Pi this should be avoided
+                # because it uses up to much RSS
+                #print ("Compressing %s dB" % decibels)
 
                 # do your bidding sir
                 sound = AudioSegment(data, sample_width=sample_width, channels=channels, frame_rate=sample_rate)
