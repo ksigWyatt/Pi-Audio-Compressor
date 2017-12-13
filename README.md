@@ -6,6 +6,11 @@ The objective of the project is to create an audio compression system, similar t
 
 We aimed to make something that could work in real time, as professional hardware does. 
 
+## How It Works
+In either a live or studio recording setting audio input can sometimes become too loud causing a "crackle" sound, otherwise known as *distortion*. This distortion can potentially ruin an otherwise clean audio stream. Professionals have to be mindful of where to set the Gain as to not create any distortion. 
+
+In the event that an audio signal reaches some threshold below [Unity Gain](http://www.proaudioland.com/news/unity-gain-explained-why-important/) the compressor kicks in. *Attacking* the signal in some determined ms time, then after compressing using some `n:m` *Ratio* for some *Release* time - also in ms - the compressor lets go. 
+
 ## Requirements
 - Client must be on the same network in order to access the Host
 - [Modify your alsa.conf file on your Pi](https://raspberrypi.stackexchange.com/a/39230/76502) - Setting USB Audio device as default
