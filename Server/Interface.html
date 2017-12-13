@@ -4,24 +4,50 @@
 	<title>Embedded Compressor Demo</title>
 </head>
 <body>
-	<h1>Embedded Compressor</h1>
+	
+	<div>
+		<h1>Embedded Compressor</h1>
+		<h3 id="time"></h3>			
+	</div>
+
+	<script type="text/javascript"> 
+		function updateClock() { 
+				var now = new Date(), // current date 
+				months = ['January', 'February', 'March', 'April', 'May', 'June',  
+								'July', 'August', 'September', 'October', 'November', 'December']; 
+				time = now.getHours() + ':' + now.getMinutes() + ":" + now.getSeconds(); 
+
+				// a cleaner way than string concatenation 
+				date = [now.getDate(),  
+								months[now.getMonth()], 
+								now.getFullYear()].join(' '); 
+
+				// set the content of the element with the ID time to the formatted string 
+				document.getElementById('time').innerHTML = [date, time].join(' | '); 
+
+				// call this function again in 1000ms or 1 second
+				setTimeout(updateClock, 1000); 
+		} 
+		updateClock(); 
+</script> 
 	<!--This is a form because otherwise you'd have to make an AJAX call to the Python file on the server in JS-->
+	<br>
 	<form>	  
 		<div class="container">
 		  <label><strong>Threshold</strong></label>
-			<input type="text" placeholder="Enter Threshold" 
+			<input type="text" placeholder="Enter negative number" 
 				name="thrs" required style="display:block">
 			<br>
 		  <label><strong>Ratio</strong></label>
-			<input type="text" placeholder="Enter Ratio" 
+			<input type="text" placeholder="Enter ratio" 
 				name="rtio" required style="display:block">
 			<br>
 		  <label><strong>Attack</strong></label>
-			<input type="text" placeholder="Enter Attack Time" 
+			<input type="text" placeholder="Enter time in ms" 
 				name="attk" required style="display:block">
 			<br>
 		  <label><strong>Release</strong></label>
-			<input type="text" placeholder="Enter Release Time" 
+			<input type="text" placeholder="Enter Time in ms" 
 				name="rele" required style="display:block">
 			<br>
 		  <button type="submit">Submit</button>
