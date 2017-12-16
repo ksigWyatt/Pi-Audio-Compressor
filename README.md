@@ -1,4 +1,4 @@
-# Embedded Compressor
+# Pi Audio Compressor
 Senior Embedded Systems using Python running on Raspberry Pi 
 
 ## Objective
