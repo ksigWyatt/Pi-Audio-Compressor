@@ -80,6 +80,7 @@ def record_and_compress(w, x, y, z):
                 # do your bidding sir
                 sound = AudioSegment(data, sample_width=sample_width, channels=channels, frame_rate=sample_rate)
                 preCompress = AudioSegment(data, sample_width=sample_width, channels=channels, frame_rate=sample_rate)
+                # i is the number of chunk that is causing the compression - don't be alarmed if you see a large #
                 preCompress.export("pre-compress%s.wav" % i, format="wav")
 
                 # Send to the compressor
